@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/theme.dart';
 import '../data/app_state.dart';
+import '../data/notifications.dart';
 import 'add_medication_screen.dart';
 
 class MedicationScreen extends ConsumerWidget {
@@ -68,8 +69,10 @@ class MedicationScreen extends ConsumerWidget {
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.delete_outline),
-                                    onPressed: () =>
-                                        app.deleteMedication(m.id),
+                                    onPressed: () {
+                                      Notifications.cancelMedication(m.id);
+                                      app.deleteMedication(m.id);
+                                    },
                                   ),
                                 ],
                               ),

@@ -10,6 +10,7 @@ class Db {
   static late Box weight;
   static late Box medications;
   static late Box medIntakes;
+  static late Box vitals;
   static late Box settings;
 
   static Future<void> init() async {
@@ -21,6 +22,7 @@ class Db {
     weight = await Hive.openBox('weight');
     medications = await Hive.openBox('medications');
     medIntakes = await Hive.openBox('med_intakes');
+    vitals = await Hive.openBox('vitals');
     settings = await Hive.openBox('settings');
   }
 }

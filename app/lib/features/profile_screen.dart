@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/util.dart';
 import '../data/app_state.dart';
+import '../data/db.dart';
+import '../data/notifications.dart';
 import '../data/profile.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -22,10 +24,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   late TextEditingController _sleepGoal;
   late String _gender;
   late String _activity;
+  bool _waterReminder = false;
 
   @override
   void initState() {
     super.initState();
+    _waterReminder = Db.settings.get('water_reminder') == true;
     final p = ref.read(appProvider.notifier).profile;
     _name = TextEditingController(text: p.name);
     _age = TextEditingController(text: '${p.age}');
@@ -162,6 +166,35 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               const SizedBox(width: 12),
               Expanded(child: _num(_sleepGoal, 'Uyqu (s)')),
             ],
+          ),
+          const SizedBox(height: 16),
+          const Text('Eslatmalar',
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+          Card(
+            child: SwitchListTile(
+              title: const Text('Suv ichish eslatmasi'),
+              subtitle: const Text('Kuniga 5 marta (9:00–21:00)'),
+              value: _waterReminder,
+              onChanged: (v) {
+                setState(() => _waterReminder = v);
+                Db.settings.put('water_reminder', v);
+                Notifications.scheduleWaterReminders(v);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text(v
+                          ? 'Suv eslatmasi yoqildi'
+                          : 'Suv eslatmasi o\'chirildi')),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Eslatma: dori qo\'shilganda eslatmalari avtomatik o\'rnatiladi.',
+            style: TextStyle(
+                fontSize: 12,
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: 24),
           FilledButton(onPressed: _save, child: const Text('Saqlash')),

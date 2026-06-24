@@ -37,6 +37,10 @@ dependencies:
   flutter_riverpod: ^3.3.2
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  flutter_local_notifications: ^22.0.1
+  timezone: ^0.11.0
+  pedometer: ^4.2.0
+  permission_handler: ^12.0.3
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +52,15 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  image_path: "assets/icon/ic_full.png"
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  adaptive_icon_background: "#1FA37A"
+  adaptive_icon_foreground: "assets/icon/ic_fg.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

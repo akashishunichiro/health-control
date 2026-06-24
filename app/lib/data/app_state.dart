@@ -174,13 +174,14 @@ class AppNotifier extends Notifier<AppState> {
   List<Medication> get medications =>
       Db.medications.values.map((e) => Medication.fromMap(Map.from(e))).toList();
 
-  void addMedication(String name, String dose, List<String> times) {
+  String addMedication(String name, String dose, List<String> times) {
     final id = _id();
     Db.medications.put(
       id,
       Medication(id: id, name: name, dose: dose, times: times).toMap(),
     );
     _bump();
+    return id;
   }
 
   void deleteMedication(String id) {
@@ -200,6 +201,36 @@ class AppNotifier extends Notifier<AppState> {
     final key = _intakeKey(medId, day, time);
     final cur = isTaken(medId, day, time);
     Db.medIntakes.put(key, MedIntake(id: key, taken: !cur).toMap());
+    _bump();
+  }
+
+  // ---------------- Sog'liq ko'rsatkichlari (vitals) ----------------
+  List<Vital> vitalsOfType(String type) {
+    final list = Db.vitals.values
+        .map((e) => Vital.fromMap(Map.from(e)))
+        .where((v) => v.type == type)
+        .toList();
+    list.sort((a, b) => b.dateMillis.compareTo(a.dateMillis));
+    return list;
+  }
+
+  Vital? latestVital(String type) {
+    final l = vitalsOfType(type);
+    return l.isEmpty ? null : l.first;
+  }
+
+  void addVital(String type, double v1, {double v2 = 0, String note = ''}) {
+    final id = _id();
+    Db.vitals.put(
+      id,
+      Vital(id: id, type: type, v1: v1, v2: v2, dateMillis: _now, note: note)
+          .toMap(),
+    );
+    _bump();
+  }
+
+  void deleteVital(String id) {
+    Db.vitals.delete(id);
     _bump();
   }
 

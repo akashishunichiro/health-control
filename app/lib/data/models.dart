@@ -145,6 +145,46 @@ class Medication {
       );
 }
 
+/// Sog'liq ko'rsatkichi: qon bosimi, qand, puls, harorat, kayfiyat.
+/// v2 faqat qon bosimi uchun ishlatiladi (diastolik).
+class Vital {
+  final String id;
+  final String type; // blood_pressure | glucose | pulse | temperature | mood
+  final double v1;
+  final double v2;
+  final int dateMillis;
+  final String note;
+
+  Vital({
+    required this.id,
+    required this.type,
+    required this.v1,
+    this.v2 = 0,
+    required this.dateMillis,
+    this.note = '',
+  });
+
+  DateTime get date => DateTime.fromMillisecondsSinceEpoch(dateMillis);
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'type': type,
+        'v1': v1,
+        'v2': v2,
+        'dateMillis': dateMillis,
+        'note': note,
+      };
+
+  factory Vital.fromMap(Map m) => Vital(
+        id: m['id'] as String,
+        type: m['type'] as String,
+        v1: (m['v1'] as num).toDouble(),
+        v2: ((m['v2'] ?? 0) as num).toDouble(),
+        dateMillis: m['dateMillis'] as int,
+        note: (m['note'] ?? '') as String,
+      );
+}
+
 /// Dori qabuli belgisi. id = "medId|dateKey|time".
 class MedIntake {
   final String id;

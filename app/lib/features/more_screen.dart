@@ -4,6 +4,7 @@ import '../core/theme.dart';
 import 'water_screen.dart';
 import 'medication_screen.dart';
 import 'weight_screen.dart';
+import 'vitals_screen.dart';
 import 'profile_screen.dart';
 
 class MoreScreen extends StatelessWidget {
@@ -15,6 +16,8 @@ class MoreScreen extends StatelessWidget {
       _MoreItem(Icons.water_drop, 'Suv', AppColors.water, const WaterScreen()),
       _MoreItem(Icons.medication, 'Dori-darmon', AppColors.med,
           const MedicationScreen()),
+      _MoreItem(Icons.favorite, 'Sog\'liq ko\'rsatkichlari', AppColors.med,
+          const VitalsScreen()),
       _MoreItem(Icons.monitor_weight, 'Vazn', AppColors.weight,
           const WeightScreen()),
       _MoreItem(Icons.person, 'Profil', AppColors.seed, const ProfileScreen()),

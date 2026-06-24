@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/app_state.dart';
+import '../data/notifications.dart';
 
 class AddMedicationScreen extends ConsumerStatefulWidget {
   const AddMedicationScreen({super.key});
@@ -39,9 +40,10 @@ class _AddMedicationScreenState extends ConsumerState<AddMedicationScreen> {
       return;
     }
     final times = _times.map(_fmt).toList()..sort();
-    ref
+    final id = ref
         .read(appProvider.notifier)
         .addMedication(name, _dose.text.trim(), times);
+    Notifications.scheduleMedication(id, name, times);
     Navigator.pop(context);
   }
 
