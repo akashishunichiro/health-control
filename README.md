@@ -48,7 +48,13 @@ app/lib/
 - 😴 **Uyqu** — yotish/uyg'onish vaqti, davomiylik, sifat, tarix
 - ⚖️ **Vazn** — kuzatuv, BMI (TVI) hisobi, dinamika grafigi
 - 💊 **Dori-darmon** — jadval, kunlik qabul belgisi
+- 🩺 **Sog'liq ko'rsatkichlari** — qon bosimi, qand, puls, harorat, kayfiyat (norma baholash bilan)
 - 📊 **Dashboard** — bugungi xulosa kartalari + haftalik grafiklar
+- 🔔 **Eslatmalar** — dori va suv uchun lokal bildirishnomalar
+- ⚙️ **Sozlamalar** — mavzu (yorug'/qorong'i/tizim), vazn birligi (kg/funt)
+- 📄 **PDF hisobot** — shifokorga yuborish uchun
+- 💾 **Lokal zaxira** — barcha ma'lumotni JSON faylga eksport / import
+- 👋 **Onboarding** — birinchi ishga tushishda tanishtiruv + profil sozlash
 - Barcha ma'lumotlar telefon ichida (offline, Hive) saqlanadi
 
 ---

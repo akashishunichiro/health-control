@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/theme.dart';
 import '../core/util.dart';
 import '../data/app_state.dart';
+import '../data/settings.dart';
 import '../widgets/common.dart';
 import 'water_screen.dart';
 import 'weight_screen.dart';
@@ -19,6 +20,7 @@ class DashboardScreen extends ConsumerWidget {
     final app = ref.read(appProvider.notifier);
     final today = DateTime.now();
     final p = app.profile;
+    final unit = ref.watch(settingsProvider).weightUnit;
 
     final cal = app.caloriesOn(today);
     final calGoal = app.calorieGoal;
@@ -116,7 +118,7 @@ class DashboardScreen extends ConsumerWidget {
                   title: 'Vazn',
                   value: weight == null
                       ? '—'
-                      : '${weight.toStringAsFixed(1)} kg',
+                      : '${kgToDisplay(weight, unit).toStringAsFixed(1)} ${weightUnitLabel(unit)}',
                   subtitle: weight == null
                       ? 'Kiritilmagan'
                       : 'TVI: ${bmi(weight, p.heightCm).toStringAsFixed(1)}',

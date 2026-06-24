@@ -6,6 +6,7 @@ import 'medication_screen.dart';
 import 'weight_screen.dart';
 import 'vitals_screen.dart';
 import 'profile_screen.dart';
+import 'settings_screen.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({super.key});
@@ -21,6 +22,8 @@ class MoreScreen extends StatelessWidget {
       _MoreItem(Icons.monitor_weight, 'Vazn', AppColors.weight,
           const WeightScreen()),
       _MoreItem(Icons.person, 'Profil', AppColors.seed, const ProfileScreen()),
+      _MoreItem(Icons.settings, 'Sozlamalar', AppColors.sleep,
+          const SettingsScreen()),
     ];
 
     return Scaffold(

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/theme.dart';
 import '../core/util.dart';
 import '../data/app_state.dart';
+import '../data/settings.dart';
 import '../widgets/common.dart';
 
 class WeightScreen extends ConsumerStatefulWidget {
@@ -27,6 +28,8 @@ class _WeightScreenState extends ConsumerState<WeightScreen> {
     ref.watch(appProvider);
     final app = ref.read(appProvider.notifier);
     final p = app.profile;
+    final unit = ref.watch(settingsProvider).weightUnit;
+    final ulabel = weightUnitLabel(unit);
     final latest = app.latestWeight;
     final bmiVal = latest == null ? 0.0 : bmi(latest, p.heightCm);
 
@@ -48,7 +51,9 @@ class _WeightScreenState extends ConsumerState<WeightScreen> {
                     children: [
                       const Text('Joriy vazn'),
                       Text(
-                        latest == null ? '—' : '${latest.toStringAsFixed(1)} kg',
+                        latest == null
+                            ? '—'
+                            : '${kgToDisplay(latest, unit).toStringAsFixed(1)} $ulabel',
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.bold),
                       ),
@@ -81,7 +86,7 @@ class _WeightScreenState extends ConsumerState<WeightScreen> {
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   decoration:
-                      const InputDecoration(labelText: 'Vazn (kg)'),
+                      InputDecoration(labelText: 'Vazn ($ulabel)'),
                 ),
               ),
               const SizedBox(width: 10),
@@ -90,7 +95,7 @@ class _WeightScreenState extends ConsumerState<WeightScreen> {
                   final v = double.tryParse(
                       _w.text.trim().replaceAll(',', '.'));
                   if (v != null && v > 0) {
-                    app.addWeight(v);
+                    app.addWeight(displayToKg(v, unit));
                     _w.clear();
                     FocusScope.of(context).unfocus();
                   }
@@ -106,7 +111,7 @@ class _WeightScreenState extends ConsumerState<WeightScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: MiniBarChart(
-                  values: recent.map((e) => e.kg).toList(),
+                  values: recent.map((e) => kgToDisplay(e.kg, unit)).toList(),
                   labels: recent
                       .map((e) => '${e.date.day}.${e.date.month}')
                       .toList(),
@@ -122,7 +127,8 @@ class _WeightScreenState extends ConsumerState<WeightScreen> {
                 child: ListTile(
                   leading: const Icon(Icons.monitor_weight,
                       color: AppColors.weight),
-                  title: Text('${e.kg.toStringAsFixed(1)} kg'),
+                  title: Text(
+                      '${kgToDisplay(e.kg, unit).toStringAsFixed(1)} $ulabel'),
                   subtitle: Text(
                       '${e.date.day}.${e.date.month}.${e.date.year}'),
                   trailing: IconButton(
